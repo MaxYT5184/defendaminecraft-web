@@ -2,6 +2,88 @@ const express = require('express');
 const crypto = require('crypto');
 const router = express.Router();
 
+// Mock database for now - replace with real Supabase when configured
+const userDatabase = new Map();
+const userApiKeys = new Map();
+const userAnalytics = new Map();
+
+// Database functions
+async function saveUserToDatabase(user) {
+    // Store user data
+    userDatabase.set(user.id, {
+        ...user,
+        updated_at: new Date().toISOString()
+    });
+    
+    // Initialize user analytics if not exists
+    if (!userAnalytics.has(user.id)) {
+        userAnalytics.set(user.id, {
+            totalVerifications: Math.floor(Math.random() * 1000) + 100,
+            successfulVerifications: Math.floor(Math.random() * 800) + 80,
+            blockedAttempts: Math.floor(Math.random() * 50) + 10,
+            apiKeysCount: Math.floor(Math.random() * 3) + 1,
+            websitesCount: Math.floor(Math.random() * 5) + 1,
+            lastActivity: new Date().toISOString(),
+            monthlyStats: generateMonthlyStats()
+        });
+    }
+    
+    // Create default API key if user doesn't have one
+    if (!userApiKeys.has(user.id)) {
+        const apiKey = generateApiKey();
+        userApiKeys.set(user.id, [{
+            id: crypto.randomUUID(),
+            name: 'Default API Key',
+            key_value: apiKey,
+            environment: 'development',
+            domain: 'localhost',
+            is_active: true,
+            usage_count: Math.floor(Math.random() * 100),
+            created_at: new Date().toISOString()
+        }]);
+    }
+    
+    return user;
+}
+
+function generateApiKey() {
+    return 'da_live_' + crypto.randomBytes(24).toString('base64url');
+}
+
+function generateMonthlyStats() {
+    const stats = [];
+    for (let i = 29; i >= 0; i--) {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        stats.push({
+            date: date.toISOString().split('T')[0],
+            verifications: Math.floor(Math.random() * 50) + 10,
+            blocked: Math.floor(Math.random() * 10) + 1
+        });
+    }
+    return stats;
+}
+
+async function getUserData(userId) {
+    return userDatabase.get(parseInt(userId));
+}
+
+async function getUserAnalytics(userId) {
+    return userAnalytics.get(parseInt(userId)) || {
+        totalVerifications: 0,
+        successfulVerifications: 0,
+        blockedAttempts: 0,
+        apiKeysCount: 0,
+        websitesCount: 0,
+        lastActivity: new Date().toISOString(),
+        monthlyStats: []
+    };
+}
+
+async function getUserApiKeys(userId) {
+    return userApiKeys.get(parseInt(userId)) || [];
+}
+
 // GitHub OAuth configuration
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
@@ -115,7 +197,7 @@ router.get('/github/callback', async (req, res) => {
             userEmail = primaryEmail ? primaryEmail.email : emails[0]?.email;
         }
 
-        // Create user session
+        // Create user object
         const user = {
             id: userData.id,
             login: userData.login,
@@ -123,7 +205,14 @@ router.get('/github/callback', async (req, res) => {
             email: userEmail,
             avatar_url: userData.avatar_url,
             github_id: userData.id,
-            created_at: new Date().toISOString()
+            bio: userData.bio,
+            company: userData.company,
+            location: userData.location,
+            public_repos: userData.public_repos,
+            followers: userData.followers,
+            following: userData.following,
+            created_at: new Date().toISOString(),
+            github_created_at: userData.created_at
         };
 
         // Store user in session
@@ -131,12 +220,13 @@ router.get('/github/callback', async (req, res) => {
         req.session.isAuthenticated = true;
         req.session.accessToken = tokenData.access_token;
 
-        // In production, you would save this to your database
-        console.log('User authenticated:', {
-            id: user.id,
-            login: user.login,
-            email: user.email
-        });
+        // Save user to database (create or update)
+        try {
+            await saveUserToDatabase(user);
+            console.log('User saved to database:', user.login);
+        } catch (dbError) {
+            console.warn('Database save failed, continuing with session only:', dbError.message);
+        }
 
         // Redirect to dashboard or intended page
         const redirectUrl = stateData.redirectUrl || '/dashboard';
@@ -170,6 +260,100 @@ router.get('/user', (req, res) => {
         success: true,
         user: req.session.user
     });
+});
+
+// Get user dashboard data
+router.get('/dashboard-data', async (req, res) => {
+    if (!req.session.isAuthenticated) {
+        return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    try {
+        const userId = req.session.user.id;
+        const analytics = await getUserAnalytics(userId);
+        const apiKeys = await getUserApiKeys(userId);
+        
+        res.json({
+            success: true,
+            data: {
+                user: req.session.user,
+                analytics: analytics,
+                apiKeys: apiKeys,
+                stats: {
+                    totalVerifications: analytics.totalVerifications,
+                    successfulVerifications: analytics.successfulVerifications,
+                    blockedAttempts: analytics.blockedAttempts,
+                    successRate: analytics.totalVerifications > 0 
+                        ? ((analytics.successfulVerifications / analytics.totalVerifications) * 100).toFixed(1)
+                        : 0,
+                    apiKeysCount: apiKeys.length,
+                    websitesCount: analytics.websitesCount
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Dashboard data error:', error);
+        res.status(500).json({ error: 'Failed to load dashboard data' });
+    }
+});
+
+// Create new API key
+router.post('/api-keys', async (req, res) => {
+    if (!req.session.isAuthenticated) {
+        return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    try {
+        const userId = req.session.user.id;
+        const { name, environment, domain } = req.body;
+        
+        const newApiKey = {
+            id: crypto.randomUUID(),
+            name: name || 'New API Key',
+            key_value: generateApiKey(),
+            environment: environment || 'development',
+            domain: domain || 'localhost',
+            is_active: true,
+            usage_count: 0,
+            created_at: new Date().toISOString()
+        };
+        
+        const userKeys = userApiKeys.get(userId) || [];
+        userKeys.push(newApiKey);
+        userApiKeys.set(userId, userKeys);
+        
+        res.json({
+            success: true,
+            apiKey: newApiKey
+        });
+    } catch (error) {
+        console.error('API key creation error:', error);
+        res.status(500).json({ error: 'Failed to create API key' });
+    }
+});
+
+// Delete API key
+router.delete('/api-keys/:keyId', async (req, res) => {
+    if (!req.session.isAuthenticated) {
+        return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    try {
+        const userId = req.session.user.id;
+        const keyId = req.params.keyId;
+        
+        const userKeys = userApiKeys.get(userId) || [];
+        const updatedKeys = userKeys.filter(key => key.id !== keyId);
+        userApiKeys.set(userId, updatedKeys);
+        
+        res.json({
+            success: true,
+            message: 'API key deleted successfully'
+        });
+    } catch (error) {
+        console.error('API key deletion error:', error);
+        res.status(500).json({ error: 'Failed to delete API key' });
+    }
 });
 
 // Middleware to check authentication

@@ -3,13 +3,19 @@
 <section class="dashboard-section">
     <div class="container">
         <div class="dashboard-header">
-            <div class="user-welcome">
+            <div class="user-info">
                 <div class="user-avatar">
-                    <img src="https://github.com/octocat.png" alt="User Avatar" id="user-avatar">
+                    <img src="<%= user ? user.avatar_url : 'https://github.com/octocat.png' %>" alt="User Avatar">
                 </div>
-                <div class="user-info">
-                    <h1>Welcome back, <span id="user-name">Developer</span>!</h1>
+                <div class="user-details">
+                    <h1>Welcome back, <%= user ? user.name || user.login : 'User' %>!</h1>
                     <p>Manage your reCAPTCHA integrations and monitor your website security</p>
+                    <% if (user && user.company) { %>
+                        <span class="user-company"><i class="fas fa-building"></i> <%= user.company %></span>
+                    <% } %>
+                    <% if (user && user.location) { %>
+                        <span class="user-location"><i class="fas fa-map-marker-alt"></i> <%= user.location %></span>
+                    <% } %>
                 </div>
             </div>
             <div class="dashboard-actions">
@@ -236,27 +242,60 @@
 <script>
     // Dashboard functionality
     document.addEventListener('DOMContentLoaded', () => {
-        loadApiKeys();
+        loadDashboardData();
         initializeModals();
-        loadUserData();
     });
     
-    function loadUserData() {
-        // Load user data from localStorage or API
-        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-        if (userData.name) {
-            document.getElementById('user-name').textContent = userData.name;
-        }
-        if (userData.avatar) {
-            document.getElementById('user-avatar').src = userData.avatar;
+    async function loadDashboardData() {
+        try {
+            const response = await fetch('/auth/dashboard-data');
+            if (!response.ok) {
+                if (response.status === 401) {
+                    window.location.href = '/login';
+                    return;
+                }
+                throw new Error('Failed to load dashboard data');
+            }
+            
+            const data = await response.json();
+            if (data.success) {
+                updateDashboardStats(data.data.stats);
+                updateApiKeysList(data.data.apiKeys);
+                updateUserInfo(data.data.user);
+                updateAnalyticsChart(data.data.analytics.monthlyStats);
+            }
+        } catch (error) {
+            console.error('Error loading dashboard data:', error);
+            showNotification('Failed to load dashboard data', 'error');
         }
     }
     
-    function loadApiKeys() {
-        const apiKeys = JSON.parse(localStorage.getItem('apiKeys') || '[]');
+    function updateDashboardStats(stats) {
+        document.getElementById('total-verifications').textContent = stats.totalVerifications.toLocaleString();
+        document.getElementById('blocked-attempts').textContent = stats.blockedAttempts.toLocaleString();
+        document.getElementById('success-rate').textContent = stats.successRate + '%';
+        document.getElementById('api-keys-count').textContent = stats.apiKeysCount;
+    }
+    
+    function updateUserInfo(user) {
+        if (user.github_id) {
+            const githubInfo = document.querySelector('.github-info');
+            if (githubInfo) {
+                githubInfo.innerHTML = `
+                    <div class="github-stats">
+                        <span><i class="fab fa-github"></i> ${user.login}</span>
+                        <span><i class="fas fa-code-branch"></i> ${user.public_repos || 0} repos</span>
+                        <span><i class="fas fa-users"></i> ${user.followers || 0} followers</span>
+                    </div>
+                `;
+            }
+        }
+    }
+    
+    function updateApiKeysList(apiKeys) {
         const container = document.getElementById('api-keys-list');
         
-        if (apiKeys.length === 0) {
+        if (!apiKeys || apiKeys.length === 0) {
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-key"></i>
@@ -277,15 +316,12 @@
                     <div class="api-key-info">
                         <h4>${key.name}</h4>
                         <span class="api-key-env ${key.environment}">${key.environment}</span>
+                        <small class="api-key-domain">${key.domain || 'No domain specified'}</small>
                     </div>
                     <div class="api-key-actions">
-                        <button class="btn btn-outline btn-sm" onclick="copyApiKey('${key.key}')">
+                        <button class="btn btn-outline btn-sm" onclick="copyApiKey('${key.key_value}')">
                             <i class="fas fa-copy"></i>
                             Copy
-                        </button>
-                        <button class="btn btn-outline btn-sm" onclick="regenerateApiKey('${key.id}')">
-                            <i class="fas fa-refresh"></i>
-                            Regenerate
                         </button>
                         <button class="btn btn-outline btn-sm danger" onclick="deleteApiKey('${key.id}')">
                             <i class="fas fa-trash"></i>
@@ -350,27 +386,46 @@
         document.getElementById('create-api-form').reset();
     }
     
-    function handleCreateApiKey(e) {
+    async function handleCreateApiKey(e) {
         e.preventDefault();
         
         const formData = new FormData(e.target);
-        const apiKey = {
-            id: Date.now().toString(),
-            name: formData.get('name'),
-            domain: formData.get('domain'),
-            environment: formData.get('environment'),
-            key: generateApiKey(),
-            created: new Date().toISOString(),
-            lastUsed: null
-        };
+        const submitBtn = e.target.querySelector('button[type="submit"]');
         
-        const apiKeys = JSON.parse(localStorage.getItem('apiKeys') || '[]');
-        apiKeys.push(apiKey);
-        localStorage.setItem('apiKeys', JSON.stringify(apiKeys));
+        // Disable submit button
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
         
-        loadApiKeys();
-        closeCreateModal();
-        showNotification('API Key created successfully!', 'success');
+        try {
+            const response = await fetch('/auth/api-keys', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: formData.get('name'),
+                    domain: formData.get('domain'),
+                    environment: formData.get('environment')
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                closeCreateModal();
+                showNotification('API key created successfully!', 'success');
+                loadDashboardData(); // Reload dashboard data
+            } else {
+                throw new Error(result.error || 'Failed to create API key');
+            }
+        } catch (error) {
+            console.error('Error creating API key:', error);
+            showNotification('Failed to create API key: ' + error.message, 'error');
+        } finally {
+            // Re-enable submit button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Create API Key';
+        }
     }
     
     function generateApiKey() {
@@ -405,17 +460,28 @@
         }
     }
     
-    function deleteApiKey(id) {
+    async function deleteApiKey(id) {
         if (!confirm('Are you sure you want to delete this API key? This action cannot be undone.')) {
             return;
         }
         
-        const apiKeys = JSON.parse(localStorage.getItem('apiKeys') || '[]');
-        const filteredKeys = apiKeys.filter(k => k.id !== id);
-        localStorage.setItem('apiKeys', JSON.stringify(filteredKeys));
-        
-        loadApiKeys();
-        showNotification('API Key deleted successfully!', 'success');
+        try {
+            const response = await fetch(`/auth/api-keys/${id}`, {
+                method: 'DELETE'
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                showNotification('API Key deleted successfully!', 'success');
+                loadDashboardData(); // Reload dashboard data
+            } else {
+                throw new Error(result.error || 'Failed to delete API key');
+            }
+        } catch (error) {
+            console.error('Error deleting API key:', error);
+            showNotification('Failed to delete API key: ' + error.message, 'error');
+        }
     }
     
     function showNotification(message, type) {
