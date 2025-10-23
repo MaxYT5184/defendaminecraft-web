@@ -220,6 +220,13 @@ router.get('/github/callback', async (req, res) => {
         req.session.isAuthenticated = true;
         req.session.accessToken = tokenData.access_token;
 
+        console.log('Session set for user:', {
+            userId: user.id,
+            login: user.login,
+            isAuthenticated: req.session.isAuthenticated,
+            sessionId: req.sessionID
+        });
+
         // Save user to database (create or update)
         try {
             await saveUserToDatabase(user);
@@ -228,9 +235,16 @@ router.get('/github/callback', async (req, res) => {
             console.warn('Database save failed, continuing with session only:', dbError.message);
         }
 
-        // Redirect to dashboard or intended page
-        const redirectUrl = stateData.redirectUrl || '/dashboard';
-        res.redirect(redirectUrl);
+        // Force session save before redirect
+        req.session.save((err) => {
+            if (err) {
+                console.error('Session save error:', err);
+            } else {
+                console.log('Session saved successfully');
+            }
+            // Redirect to dashboard
+            res.redirect('/dashboard');
+        });
 
     } catch (error) {
         console.error('GitHub OAuth error:', error);
@@ -358,7 +372,15 @@ router.delete('/api-keys/:keyId', async (req, res) => {
 
 // Middleware to check authentication
 function requireAuth(req, res, next) {
-    if (!req.session.isAuthenticated) {
+    console.log('Auth check:', {
+        sessionExists: !!req.session,
+        isAuthenticated: req.session?.isAuthenticated,
+        hasUser: !!req.session?.user,
+        userId: req.session?.user?.id
+    });
+    
+    if (!req.session?.isAuthenticated || !req.session?.user) {
+        console.log('Authentication failed, redirecting to login');
         return res.redirect('/login');
     }
     next();
@@ -376,106 +398,6 @@ function cleanupExpiredStates() {
     }
 }
 
-// Email/Password Signup
-router.post('/signup', async (req, res) => {
-    try {
-        const { firstName, lastName, email, password, confirmPassword, terms } = req.body;
-        
-        // Validation
-        if (!firstName || !lastName || !email || !password || !confirmPassword) {
-            return res.redirect('/signup?error=' + encodeURIComponent('All fields are required'));
-        }
-        
-        if (password !== confirmPassword) {
-            return res.redirect('/signup?error=' + encodeURIComponent('Passwords do not match'));
-        }
-        
-        if (password.length < 6) {
-            return res.redirect('/signup?error=' + encodeURIComponent('Password must be at least 6 characters'));
-        }
-        
-        if (!terms) {
-            return res.redirect('/signup?error=' + encodeURIComponent('You must accept the terms and conditions'));
-        }
-        
-        // Check if user already exists
-        const existingUser = Array.from(userDatabase.values()).find(user => user.email === email);
-        if (existingUser) {
-            return res.redirect('/signup?error=' + encodeURIComponent('User already exists with this email'));
-        }
-        
-        // Create new user
-        const userId = Date.now(); // In production, use proper UUID
-        const hashedPassword = crypto.createHash('sha256').update(password).digest('hex'); // For fallback storage
-        
-        const newUser = {
-            id: userId,
-            email: email,
-            full_name: `${firstName} ${lastName}`,
-            first_name: firstName,
-            last_name: lastName,
-            password_hash: password, // Pass plain password for Supabase auth
-            hashed_password: hashedPassword, // Keep hash for fallback
-            avatar_url: `https://ui-avatars.com/api/?name=${firstName}+${lastName}&background=0d4377&color=fff`,
-            created_at: new Date().toISOString(),
-            email_verified: false,
-            auth_provider: 'email'
-        };
-        
-        // Save user to database
-        await saveUserToDatabase(newUser);
-        
-        // Create session
-        req.session.user = newUser;
-        req.session.isAuthenticated = true;
-        
-        console.log('New user registered:', { id: userId, email: email, name: newUser.full_name });
-        
-        // Redirect to dashboard
-        res.redirect('/dashboard?welcome=true');
-        
-    } catch (error) {
-        console.error('Signup error:', error);
-        res.redirect('/signup?error=' + encodeURIComponent('Registration failed. Please try again.'));
-    }
-});
-
-// Email/Password Login
-router.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        
-        // Validation
-        if (!email || !password) {
-            return res.redirect('/login?error=' + encodeURIComponent('Email and password are required'));
-        }
-        
-        // Find user
-        const user = Array.from(userDatabase.values()).find(user => user.email === email);
-        if (!user) {
-            return res.redirect('/login?error=' + encodeURIComponent('Invalid email or password'));
-        }
-        
-        // Check password
-        const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
-        if (user.password_hash !== hashedPassword) {
-            return res.redirect('/login?error=' + encodeURIComponent('Invalid email or password'));
-        }
-        
-        // Create session
-        req.session.user = user;
-        req.session.isAuthenticated = true;
-        
-        console.log('User logged in:', { id: user.id, email: user.email });
-        
-        // Redirect to dashboard
-        res.redirect('/dashboard');
-        
-    } catch (error) {
-        console.error('Login error:', error);
-        res.redirect('/login?error=' + encodeURIComponent('Login failed. Please try again.'));
-    }
-});
 
 // Export middleware
 router.requireAuth = requireAuth;

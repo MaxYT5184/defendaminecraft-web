@@ -11,77 +11,16 @@
                 <p>Create your DefendAMinecraft account in seconds</p>
             </div>
             
-            <form class="auth-form" method="POST" action="/auth/signup">
-                <% if (typeof error !== 'undefined' && error) { %>
-                    <div class="error-message">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <%= error %>
-                    </div>
-                <% } %>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" required>
-                    </div>
+            <div class="social-auth">
+                <a href="/auth/github" class="btn btn-social btn-github">
+                    <i class="fab fa-github"></i>
+                    Sign up with GitHub
+                </a>
+                <div class="auth-note">
+                    <i class="fas fa-shield-check"></i>
+                    <span>Quick setup with GitHub. Get started in seconds with your existing developer account.</span>
                 </div>
-                
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                    <small class="form-hint">Must be at least 6 characters long</small>
-                </div>
-                
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required>
-                </div>
-                
-                <div class="form-group checkbox-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="terms" name="terms" required>
-                        <span class="checkmark"></span>
-                        I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>
-                    </label>
-                </div>
-                
-                <div class="form-group checkbox-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="marketing" name="marketing">
-                        <span class="checkmark"></span>
-                        Send me product updates and security tips
-                    </label>
-                </div>
-                
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fas fa-user-plus"></i>
-                    Create Account
-                </button>
-                
-                <div class="auth-divider">
-                    <span>or</span>
-                </div>
-                
-                <div class="social-auth">
-                    <a href="/auth/github" class="btn btn-social btn-github">
-                        <i class="fab fa-github"></i>
-                        Sign up with GitHub
-                    </a>
-                    <div class="auth-note">
-                        <i class="fas fa-shield-check"></i>
-                        <span>Quick setup with GitHub. Get started in seconds with your existing developer account.</span>
-                    </div>
-                </div>
-            </form>
+            </div>
             
             <div class="auth-footer">
                 <p>Already have an account? <a href="/login">Sign in</a></p>

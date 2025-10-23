@@ -11,53 +11,16 @@
                 <p>Sign in to your DefendAMinecraft account</p>
             </div>
             
-            <form class="auth-form" method="POST" action="/auth/login">
-                <% if (typeof error !== 'undefined' && error) { %>
-                    <div class="error-message">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <%= error %>
-                    </div>
-                <% } %>
-                
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required>
+            <div class="social-auth">
+                <a href="/auth/github" class="btn btn-social btn-github">
+                    <i class="fab fa-github"></i>
+                    Continue with GitHub
+                </a>
+                <div class="auth-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>We use GitHub for secure authentication. Your GitHub data is never stored or shared.</span>
                 </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                
-                <div class="form-options">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="remember" name="remember">
-                        <span class="checkmark"></span>
-                        Remember me
-                    </label>
-                    <a href="/forgot-password" class="forgot-link">Forgot password?</a>
-                </div>
-                
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Sign In
-                </button>
-                
-                <div class="auth-divider">
-                    <span>or</span>
-                </div>
-                
-                <div class="social-auth">
-                    <a href="/auth/github" class="btn btn-social btn-github">
-                        <i class="fab fa-github"></i>
-                        Continue with GitHub
-                    </a>
-                    <div class="auth-note">
-                        <i class="fas fa-info-circle"></i>
-                        <span>We use GitHub for secure authentication. Your GitHub data is never stored or shared.</span>
-                    </div>
-                </div>
-            </form>
+            </div>
             
             <div class="auth-footer">
                 <p>Don't have an account? <a href="/signup">Sign up for free</a></p>
