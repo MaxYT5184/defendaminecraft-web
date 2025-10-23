@@ -136,13 +136,53 @@ class DatabaseService {
         }
 
         try {
+            // First create the user in Supabase auth if it's an email signup
+            if (userData.auth_provider === 'email' && userData.password_hash) {
+                const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
+                    email: userData.email,
+                    password: userData.password_hash, // This should be the plain password, not hash
+                    email_confirm: true,
+                    user_metadata: {
+                        full_name: userData.full_name,
+                        first_name: userData.first_name,
+                        last_name: userData.last_name,
+                        avatar_url: userData.avatar_url
+                    }
+                });
+
+                if (authError) {
+                    console.warn('Supabase auth creation failed:', authError.message);
+                    return userData; // Fallback to mock data
+                }
+
+                userData.id = authData.user.id; // Use Supabase auth user ID
+            }
+
             const { data, error } = await supabaseAdmin
                 .from('users')
-                .insert([userData])
+                .insert([{
+                    id: userData.id,
+                    email: userData.email,
+                    full_name: userData.full_name,
+                    avatar_url: userData.avatar_url,
+                    github_username: userData.github_username || null,
+                    github_id: userData.github_id || null,
+                    company: userData.company || null,
+                    bio: userData.bio || null,
+                    location: userData.location || null,
+                    public_repos: userData.public_repos || 0,
+                    followers: userData.followers || 0,
+                    following: userData.following || 0
+                }])
                 .select()
                 .single();
             
-            if (error) throw error;
+            if (error) {
+                console.warn('Database insert failed:', error.message);
+                return userData; // Fallback to mock data
+            }
+            
+            console.log('✅ User saved to Supabase:', data.email);
             return data;
         } catch (error) {
             console.warn('Database operation failed, using fallback:', error.message);

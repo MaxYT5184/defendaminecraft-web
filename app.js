@@ -109,14 +109,16 @@ app.get('/contact', (req, res) => {
 // Login page
 app.get('/login', (req, res) => {
     res.render('pages/login', { 
-        title: 'Login | DefendAMinecraft'
+        title: 'Sign In | DefendAMinecraft',
+        error: req.query.error || null
     });
 });
 
 // Signup page
 app.get('/signup', (req, res) => {
     res.render('pages/signup', { 
-        title: 'Sign Up | DefendAMinecraft'
+        title: 'Sign Up | DefendAMinecraft',
+        error: req.query.error || null
     });
 });
 

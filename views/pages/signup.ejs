@@ -11,15 +11,22 @@
                 <p>Create your DefendAMinecraft account in seconds</p>
             </div>
             
-            <form class="auth-form" id="signup-form">
+            <form class="auth-form" method="POST" action="/auth/signup">
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <%= error %>
+                    </div>
+                <% } %>
+                
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="first-name">First Name</label>
-                        <input type="text" id="first-name" name="firstName" required>
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required>
                     </div>
                     <div class="form-group">
-                        <label for="last-name">Last Name</label>
-                        <input type="text" id="last-name" name="lastName" required>
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required>
                     </div>
                 </div>
                 
@@ -31,24 +38,27 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" required>
-                    <div class="password-strength">
-                        <div class="strength-bar">
-                            <div class="strength-fill"></div>
-                        </div>
-                        <span class="strength-text">Password strength</span>
-                    </div>
+                    <small class="form-hint">Must be at least 6 characters long</small>
                 </div>
                 
                 <div class="form-group">
-                    <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" name="confirmPassword" required>
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
                 </div>
                 
-                <div class="form-group">
-                    <label class="checkbox">
-                        <input type="checkbox" name="terms" required>
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" name="terms" required>
                         <span class="checkmark"></span>
-                        I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>
+                        I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>
+                    </label>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="marketing" name="marketing">
+                        <span class="checkmark"></span>
+                        Send me product updates and security tips
                     </label>
                 </div>
                 

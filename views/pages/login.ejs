@@ -11,7 +11,14 @@
                 <p>Sign in to your DefendAMinecraft account</p>
             </div>
             
-            <form class="auth-form" id="login-form">
+            <form class="auth-form" method="POST" action="/auth/login">
+                <% if (typeof error !== 'undefined' && error) { %>
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <%= error %>
+                    </div>
+                <% } %>
+                
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required>
@@ -23,8 +30,8 @@
                 </div>
                 
                 <div class="form-options">
-                    <label class="checkbox">
-                        <input type="checkbox" name="remember">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="remember" name="remember">
                         <span class="checkmark"></span>
                         Remember me
                     </label>
