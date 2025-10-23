@@ -8,12 +8,19 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust proxy for production deployment (Vercel, etc.)
+app.set('trust proxy', true);
+
 // Session configuration
 app.use(session({
-    secret: crypto.randomBytes(32).toString('hex'),
+    secret: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
+    saveUninitialized: false,
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
+        httpOnly: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    }
 }));
 
 // Middleware
@@ -35,6 +42,9 @@ app.use((req, res, next) => {
     res.locals.title = 'DefendAMinecraft';
     // Set current page for active navigation
     res.locals.currentPage = req.path === '/' ? 'home' : req.path.replace(/^\//, '').split('/')[0];
+    // Pass user data to all views
+    res.locals.user = req.session?.user || null;
+    res.locals.isAuthenticated = req.session?.isAuthenticated || false;
     next();
 });
 

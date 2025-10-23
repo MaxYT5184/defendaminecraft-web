@@ -27,6 +27,43 @@
                     <li><a href="/settings" class="<%= currentPage === 'settings' ? 'active' : '' %>">Settings</a></li>
                 </ul>
             </nav>
+            <div class="nav-actions">
+                <% if (typeof user !== 'undefined' && user) { %>
+                    <!-- Logged in user -->
+                    <div class="user-menu">
+                        <div class="user-profile" onclick="toggleUserDropdown()">
+                            <img src="<%= user.avatar_url %>" alt="<%= user.name || user.login %>" class="user-avatar-small">
+                            <span class="user-name"><%= user.name || user.login %></span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown" id="user-dropdown">
+                            <a href="/dashboard" class="dropdown-item">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Dashboard
+                            </a>
+                            <a href="/settings" class="dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                Settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <button onclick="logout()" class="dropdown-item logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <!-- Not logged in -->
+                    <a href="/login" class="btn btn-outline">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login
+                    </a>
+                    <a href="/signup" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        Sign Up
+                    </a>
+                <% } %>
+            </div>
             <div class="navbar-controls">
                 <div class="navbar-style-selector">
                     <button class="navbar-toggle-btn" id="navbar-style-btn" title="Change Navigation Style">
@@ -57,4 +94,53 @@
             </button>
         </div>
     </header>
+
+    <script>
+    // User dropdown functionality
+    function toggleUserDropdown() {
+        const dropdown = document.getElementById('user-dropdown');
+        const profile = document.querySelector('.user-profile');
+        
+        if (dropdown && profile) {
+            dropdown.classList.toggle('show');
+            profile.classList.toggle('active');
+        }
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const userMenu = document.querySelector('.user-menu');
+        const dropdown = document.getElementById('user-dropdown');
+        const profile = document.querySelector('.user-profile');
+        
+        if (userMenu && !userMenu.contains(event.target)) {
+            if (dropdown) dropdown.classList.remove('show');
+            if (profile) profile.classList.remove('active');
+        }
+    });
+
+    // Logout functionality
+    async function logout() {
+        try {
+            const response = await fetch('/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Redirect to home page
+                window.location.href = '/';
+            } else {
+                alert('Logout failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+            alert('Logout failed. Please try again.');
+        }
+    }
+    </script>
     <main class="main-content">
