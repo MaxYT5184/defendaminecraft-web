@@ -1,0 +1,61 @@
+{
+  "name": "defendaminecraft-recaptcha-client",
+  "version": "1.0.0",
+  "description": "Advanced reCAPTCHA client library for DefendAMinecraft - faster, smarter, and more secure than traditional reCAPTCHA solutions",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src --ext .ts,.js",
+    "lint:fix": "eslint src --ext .ts,.js --fix",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "recaptcha",
+    "captcha",
+    "bot-protection",
+    "security",
+    "verification",
+    "defendaminecraft",
+    "anti-bot",
+    "spam-protection"
+  ],
+  "author": "DefendAMinecraft Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/defendaminecraft/recaptcha-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/defendaminecraft/recaptcha-js/issues"
+  },
+  "homepage": "https://defendaminecraft.online",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
+    "@typescript-eslint/parser": "^5.57.0",
+    "eslint": "^8.37.0",
+    "jest": "^29.5.0",
+    "rollup": "^3.20.0",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-terser": "^0.4.0",
+    "typescript": "^5.0.2",
+    "ts-jest": "^29.1.0"
+  },
+  "peerDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

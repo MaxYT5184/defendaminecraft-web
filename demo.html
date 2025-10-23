@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DefendaCaptcha Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="widget/defendacaptcha.css">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            color: #202124;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1, h2 {
+            color: #1a73e8;
+        }
+        
+        .demo-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .demo-box {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background: #f5f5f5;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        body.dark {
+            background: #202124;
+            color: #e8eaed;
+        }
+        
+        body.dark .demo-container,
+        body.dark .demo-box,
+        body.dark pre {
+            background: #303134;
+            color: #e8eaed;
+        }
+        
+        body.dark code {
+            background: #3c4043;
+            color: #e8eaed;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Dark Mode</button>
+    
+    <h1>DefendaCaptcha Demo</h1>
+    <p>A simple, lightweight CAPTCHA alternative that's easy to implement and use.</p>
+    
+    <div class="demo-container">
+        <h2>Basic Usage</h2>
+        <p>Add the CAPTCHA to your form with just a few lines of code:</p>
+        
+        <div class="demo-box">
+            <!-- Basic CAPTCHA -->
+            <div id="basic-captcha"></div>
+            <button id="basic-submit" disabled>Submit Form</button>
+        </div>
+        
+        <pre><code>&lt;!-- Include the CSS -->
+&lt;link href="defendacaptcha.css" rel="stylesheet">
+
+&lt;!-- Include the JavaScript -->
+&lt;script src="defendacaptcha.js">&lt;/script>
+
+&lt;!-- Add the CAPTCHA container -->
+&lt;div id="my-captcha">&lt;/div>
+
+&lt;script>
+    // Initialize the CAPTCHA
+    const captcha = new DefendaCaptcha({
+        sitekey: 'your-site-key',
+        theme: 'light', // or 'dark'
+        callback: function(token) {
+            // This function is called when verification is successful
+            console.log('Verification successful!', token);
+            // Enable your form submit button
+            document.getElementById('submit-button').disabled = false;
+        }
+    });
+    
+    // Render the CAPTCHA
+    captcha.render('my-captcha');
+&lt;/script></code></pre>
+    </div>
+    
+    <div class="demo-container">
+        <h2>Auto-Initialization</h2>
+        <p>Or use the auto-initialization with data attributes:</p>
+        
+        <div class="demo-box">
+            <!-- Auto-initialized CAPTCHA -->
+            <div id="auto-captcha" 
+                 data-sitekey="your-site-key" 
+                 data-theme="light"
+                 data-callback="onCaptchaSuccess"
+                 data-expired-callback="onCaptchaExpired"
+                 data-error-callback="onCaptchaError">
+            </div>
+            <button id="auto-submit" disabled>Submit Form</button>
+        </div>
+        
+        <pre><code>&lt;div id="my-captcha"
+     data-sitekey="your-site-key"
+     data-theme="light"
+     data-callback="onCaptchaSuccess"
+     data-expired-callback="onCaptchaExpired"
+     data-error-callback="onCaptchaError">
+&lt;/div>
+
+&lt;script>
+    // These functions will be called automatically
+    function onCaptchaSuccess(token) {
+        console.log('Verification successful!', token);
+        document.getElementById('submit-button').disabled = false;
+    }
+    
+    function onCaptchaExpired() {
+        console.log('CAPTCHA expired');
+        document.getElementById('submit-button').disabled = true;
+    }
+    
+    function onCaptchaError(error) {
+        console.error('CAPTCHA error:', error);
+    }
+&lt;/script></code></pre>
+    </div>
+    
+    <div class="demo-container">
+        <h2>Programmatic Usage</h2>
+        <p>Control the CAPTCHA programmatically:</p>
+        
+        <div class="demo-box">
+            <div id="programmatic-captcha"></div>
+            <div>
+                <button id="verify-btn">Verify Programmatically</button>
+                <button id="reset-btn">Reset</button>
+            </div>
+            <div id="status">Status: Not verified</div>
+        </div>
+        
+        <pre><code>const captcha = new DefendaCaptcha({
+    sitekey: 'your-site-key'
+});
+
+// Render the CAPTCHA
+captcha.render('programmatic-captcha');
+
+// Verify programmatically
+document.getElementById('verify-btn').addEventListener('click', async () => {
+    try {
+        const token = await captcha.execute();
+        console.log('Verification successful!', token);
+        document.getElementById('status').textContent = 'Status: Verified';
+    } catch (error) {
+        console.error('Verification failed:', error);
+        document.getElementById('status').textContent = 'Status: Verification failed';
+    }
+});
+
+// Reset the CAPTCHA
+document.getElementById('reset-btn').addEventListener('click', () => {
+    captcha.reset();
+    document.getElementById('status').textContent = 'Status: Not verified';
+});</code></pre>
+    </div>
+    
+    <script src="widget/defendacaptcha.js"></script>
+    <script>
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            const captchas = document.querySelectorAll('.defenda-captcha');
+            captchas.forEach(captcha => {
+                captcha.classList.toggle('dark');
+            });
+        }
+        
+        // Basic example
+        const basicCaptcha = new DefendaCaptcha({
+            sitekey: 'demo-site-key',
+            callback: function(token) {
+                console.log('Basic CAPTCHA verified:', token);
+                document.getElementById('basic-submit').disabled = false;
+            }
+        });
+        basicCaptcha.render('basic-captcha');
+        
+        // Auto-initialization example
+        function onCaptchaSuccess(token) {
+            console.log('Auto CAPTCHA verified:', token);
+            document.getElementById('auto-submit').disabled = false;
+        }
+        
+        function onCaptchaExpired() {
+            console.log('CAPTCHA expired');
+            document.getElementById('auto-submit').disabled = true;
+        }
+        
+        function onCaptchaError(error) {
+            console.error('CAPTCHA error:', error);
+        }
+        
+        // Programmatic example
+        const programmaticCaptcha = new DefendaCaptcha({
+            sitekey: 'demo-site-key'
+        });
+        programmaticCaptcha.render('programmatic-captcha');
+        
+        document.getElementById('verify-btn').addEventListener('click', async () => {
+            try {
+                const token = await programmaticCaptcha.execute();
+                console.log('Programmatic verification successful:', token);
+                document.getElementById('status').textContent = 'Status: Verified';
+            } catch (error) {
+                console.error('Programmatic verification failed:', error);
+                document.getElementById('status').textContent = 'Status: Verification failed';
+            }
+        });
+        
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            programmaticCaptcha.reset();
+            document.getElementById('status').textContent = 'Status: Not verified';
+        });
+    </script>
+</body>
+</html>

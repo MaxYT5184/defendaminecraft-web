@@ -1,0 +1,244 @@
+<%- include('../partials/header') %>
+
+<section class="contact-section">
+    <div class="container">
+        <div class="contact-header">
+            <h1>Get in Touch</h1>
+            <p>Have questions about DefendAMinecraft? We're here to help you secure your websites and provide the best reCAPTCHA experience.</p>
+        </div>
+        
+        <div class="contact-content">
+            <div class="contact-form-section">
+                <div class="contact-form-card">
+                    <h2>Send us a Message</h2>
+                    <p>Fill out the form below and our team will get back to you within 24 hours.</p>
+                    
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name">First Name</label>
+                                <input type="text" id="first-name" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name">Last Name</label>
+                                <input type="text" id="last-name" name="lastName" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="company">Company (Optional)</label>
+                            <input type="text" id="company" name="company">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select a topic</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="technical">Technical Support</option>
+                                <option value="billing">Billing Question</option>
+                                <option value="integration">Integration Help</option>
+                                <option value="partnership">Partnership</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="6" placeholder="Tell us how we can help you..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="contact-info-section">
+                <div class="contact-methods">
+                    
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Email Us</h3>
+                                <p>support@defendaminecraft.com</p>
+                                <p>sales@defendaminecraft.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-comment-dots"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Live Chat</h3>
+                                <p>Chat with our support team in real-time</p>
+                                <a href="#" class="btn btn-outline btn-sm">Start Chat</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>Support Center</h3>
+                                <p>Visit our help center for documentation and FAQs</p>
+                                <a href="/docs" class="btn btn-outline btn-sm">Help Center</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <h3>Follow Us</h3>
+                        <div class="social-icons">
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <div class="contact-form-wrapper">
+                        <h2>Send us a Message</h2>
+                        <form id="contact-form" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Full Name <span class="required">*</span></label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email Address <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject" name="subject">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Your Message <span class="required">*</span></label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            
+                            <!-- reCAPTCHA Widget -->
+                            <div id="contact-recaptcha" class="recaptcha-widget"></div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary" id="submit-btn">
+                                    <span class="button-text">Send Message</span>
+                                    <span class="button-loader" style="display: none;">
+                                        <i class="fas fa-spinner fa-spin"></i> Sending...
+                                    </span>
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <div id="success-message" class="alert alert-success" style="display: none;">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <h4>Message Sent Successfully!</h4>
+                                <p>Thank you for contacting us. We'll get back to you soon.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section section-alt">
+        <div class="container">
+            <h2 class="text-center">Frequently Asked Questions</h2>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>What are your support hours?</h3>
+                    <p>Our support team is available 24/7 for critical issues. For non-urgent inquiries, please allow up to 24 hours for a response during business hours (Monday - Friday, 9 AM - 5 PM EST).</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Do you offer phone support?</h3>
+                    <p>Phone support is available for Enterprise customers. All other plans include email and live chat support.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>How can I report a security vulnerability?</h3>
+                    <p>Please email security@defendaminecraft.com with details of any security concerns. We take all reports seriously and will respond promptly.</p>
+                </div>
+                
+                <div class="faq-item">
+                    <h3>Where is your company located?</h3>
+                    <p>Our headquarters is located at 123 Security Ave, Tech City, TC 12345, but we're a fully remote company with team members around the world.</p>
+                </div>
+            </div>
+            
+            <div class="text-center" style="margin-top: 3rem;">
+                <h3>Still have questions?</h3>
+                <p>Check out our <a href="/docs">documentation</a> or <a href="/faq">FAQ page</a> for more information.</p>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // Initialize reCAPTCHA
+        document.addEventListener('DOMContentLoaded', () => {
+            // This would be replaced with actual reCAPTCHA initialization
+            // const recaptcha = new RecaptchaWidget('contact-recaptcha', {
+            //     sitekey: 'your-site-key',
+            //     callback: (token) => {
+            //         console.log('reCAPTCHA verified:', token);
+            //     }
+            // });
+            
+            // Form submission
+            const contactForm = document.getElementById('contact-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const buttonText = submitBtn.querySelector('.button-text');
+            const buttonLoader = submitBtn.querySelector('.button-loader');
+            const successMessage = document.getElementById('success-message');
+            
+            contactForm?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Show loading state
+                buttonText.style.display = 'none';
+                buttonLoader.style.display = 'inline-block';
+                submitBtn.disabled = true;
+                
+                try {
+                    // Simulate API call
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    // Show success message
+                    contactForm.style.display = 'none';
+                    successMessage.style.display = 'flex';
+                    
+                    // Reset form
+                    contactForm.reset();
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    alert('There was an error sending your message. Please try again.');
+                } finally {
+                    // Reset button state
+                    buttonText.style.display = 'inline-block';
+                    buttonLoader.style.display = 'none';
+                    submitBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+<%- include('../partials/footer') %>

@@ -1,0 +1,245 @@
+<%- include('../partials/header') %>
+
+<section class="integration-section">
+    <div class="container">
+        <div class="integration-header">
+            <h1>Integration Guide</h1>
+            <p>Get DefendAMinecraft reCAPTCHA up and running on your website in minutes</p>
+        </div>
+        
+        <div class="integration-steps">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Get Your API Keys</h3>
+                    <p>Sign up for a free account and get your site key and secret key from the dashboard.</p>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>Your Keys</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>Site Key: da_live_xxxxxxxxxxxxxxxxxxxxxxxx
+Secret Key: da_secret_xxxxxxxxxxxxxxxxxxxxxxxx</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Add the JavaScript Library</h3>
+                    <p>Include our lightweight JavaScript library in your HTML head section.</p>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>HTML</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>&lt;script src="https://api.defendaminecraft.online/v1/recaptcha.js" async defer&gt;&lt;/script&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Add the Widget to Your Form</h3>
+                    <p>Place the reCAPTCHA widget in your form where you want the verification to appear.</p>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>HTML</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>&lt;form id="myForm"&gt;
+  &lt;!-- Your form fields --&gt;
+  &lt;input type="email" name="email" required&gt;
+  
+  &lt;!-- DefendAMinecraft reCAPTCHA --&gt;
+  &lt;div class="da-recaptcha" 
+       data-sitekey="your_site_key_here"
+       data-callback="onRecaptchaSuccess"&gt;
+  &lt;/div&gt;
+  
+  &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Handle the Callback</h3>
+                    <p>Add a JavaScript callback function to handle successful verification.</p>
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>JavaScript</span>
+                            <button class="copy-btn">Copy</button>
+                        </div>
+                        <pre><code>function onRecaptchaSuccess(token) {
+  // Enable form submission
+  document.getElementById('submitBtn').disabled = false;
+  
+  // Store the token for server verification
+  document.getElementById('recaptcha-token').value = token;
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>Verify on Your Server</h3>
+                    <p>Verify the token on your server before processing the form submission.</p>
+                    <div class="code-tabs">
+                        <div class="tab-buttons">
+                            <button class="tab-btn active" data-tab="node">Node.js</button>
+                            <button class="tab-btn" data-tab="php">PHP</button>
+                            <button class="tab-btn" data-tab="python">Python</button>
+                        </div>
+                        
+                        <div class="tab-content active" id="node">
+                            <div class="code-example">
+                                <div class="code-header">
+                                    <span>server.js</span>
+                                    <button class="copy-btn">Copy</button>
+                                </div>
+                                <pre><code>const axios = require('axios');
+
+async function verifyRecaptcha(token) {
+  const response = await axios.post('https://api.defendaminecraft.online/v1/verify', {
+    secret: 'your_secret_key',
+    response: token
+  });
+  
+  return response.data.success;
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content" id="php">
+                            <div class="code-example">
+                                <div class="code-header">
+                                    <span>verify.php</span>
+                                    <button class="copy-btn">Copy</button>
+                                </div>
+                                <pre><code>&lt;?php
+$secret = 'your_secret_key';
+$token = $_POST['recaptcha_token'];
+
+$response = file_get_contents('https://api.defendaminecraft.online/v1/verify?' . 
+  http_build_query([
+    'secret' => $secret,
+    'response' => $token
+  ])
+);
+
+$result = json_decode($response, true);
+return $result['success'];
+?&gt;</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content" id="python">
+                            <div class="code-example">
+                                <div class="code-header">
+                                    <span>verify.py</span>
+                                    <button class="copy-btn">Copy</button>
+                                </div>
+                                <pre><code>import requests
+
+def verify_recaptcha(token):
+    response = requests.post('https://api.defendaminecraft.online/v1/verify', {
+        'secret': 'your_secret_key',
+        'response': token
+    })
+    
+    return response.json()['success']</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="integration-options">
+            <h2>Advanced Options</h2>
+            <div class="options-grid">
+                <div class="option-card">
+                    <h3>Custom Styling</h3>
+                    <p>Customize the appearance to match your brand</p>
+                    <div class="code-example">
+                        <pre><code>data-theme="dark"
+data-size="compact"
+data-style="custom.css"</code></pre>
+                    </div>
+                </div>
+                
+                <div class="option-card">
+                    <h3>Multiple Callbacks</h3>
+                    <p>Handle different events during verification</p>
+                    <div class="code-example">
+                        <pre><code>data-callback="onSuccess"
+data-expired-callback="onExpired"
+data-error-callback="onError"</code></pre>
+                    </div>
+                </div>
+                
+                <div class="option-card">
+                    <h3>Invisible Mode</h3>
+                    <p>Verify users without showing a widget</p>
+                    <div class="code-example">
+                        <pre><code>data-size="invisible"
+data-badge="bottomright"</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="integration-help">
+            <div class="help-card">
+                <h3>Need Help?</h3>
+                <p>Our integration experts are here to help you get started quickly.</p>
+                <div class="help-actions">
+                    <a href="/contact" class="btn btn-primary">Contact Support</a>
+                    <a href="/docs" class="btn btn-outline">View Full Docs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Tab switching functionality
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.dataset.tab;
+            const container = btn.closest('.code-tabs');
+            
+            // Update active tab button
+            container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Update active tab content
+            container.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            container.querySelector(`#${tabId}`).classList.add('active');
+        });
+    });
+    
+    // Copy to clipboard functionality
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const code = btn.closest('.code-example').querySelector('code');
+            navigator.clipboard.writeText(code.textContent);
+            
+            btn.textContent = 'Copied!';
+            setTimeout(() => {
+                btn.textContent = 'Copy';
+            }, 2000);
+        });
+    });
+</script>
+
+<%- include('../partials/footer') %>

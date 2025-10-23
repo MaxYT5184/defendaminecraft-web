@@ -1,0 +1,159 @@
+<%- include('../partials/header') %>
+
+<section class="demo-section">
+    <div class="container">
+        <div class="demo-header">
+            <h1>Live reCAPTCHA Demo</h1>
+            <p>Experience the power of our next-generation reCAPTCHA system. Test it yourself and see why it's superior to Google reCAPTCHA.</p>
+        </div>
+        
+        <div class="demo-container">
+            <div class="demo-content">
+                <div class="demo-card">
+                    <h2>Try Our reCAPTCHA</h2>
+                    <p>Complete the verification below to see how fast and user-friendly our system is.</p>
+                    
+                    <!-- Modern reCAPTCHA Widget -->
+                    <div class="recaptcha-widget-container">
+                        <div id="recaptcha-widget"></div>
+                    </div>
+                    
+                    <div class="demo-actions">
+                        <div class="security-badge">
+                            <i class="fas fa-lock"></i>
+                            <span>Secured by DefendAMinecraft</span>
+                        </div>
+                        <button id="continue-btn" class="btn btn-primary" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                            Continue
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="verification-success" class="verification-success hidden">
+                    <div class="success-animation">
+                        <div class="success-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="success-particles"></div>
+                    </div>
+                    <h2>Verification Complete!</h2>
+                    <p>See how fast that was? No annoying image puzzles, no slow loading times.</p>
+                    <div class="success-actions">
+                        <button id="reset-btn" class="btn btn-secondary">
+                            <i class="fas fa-redo"></i>
+                            Try Again
+                        </button>
+                        <a href="/signup" class="btn btn-primary">
+                            <i class="fas fa-rocket"></i>
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo-stats">
+                <h3>Real-time Performance</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-stopwatch"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">0.3s</div>
+                            <div class="stat-label">Response Time</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shield-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">99.8%</div>
+                            <div class="stat-label">Accuracy</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-value">50M+</div>
+                            <div class="stat-label">Daily Verifications</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="comparison-section">
+                    <h4>vs Google reCAPTCHA</h4>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <span class="feature">Speed</span>
+                            <span class="us">3x Faster</span>
+                            <span class="them">Slow</span>
+                        </div>
+                        <div class="comparison-item">
+                            <span class="feature">User Experience</span>
+                            <span class="us">Seamless</span>
+                            <span class="them">Frustrating</span>
+                        </div>
+                        <div class="comparison-item">
+                            <span class="feature">Accuracy</span>
+                            <span class="us">99.8%</span>
+                            <span class="them">95.2%</span>
+                        </div>
+                        <div class="comparison-item">
+                            <span class="feature">Privacy</span>
+                            <span class="us">Zero Tracking</span>
+                            <span class="them">Data Collection</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/js/recaptcha-cdn.js"></script>
+<script>
+    // Demo reCAPTCHA functionality using our CDN library
+    document.addEventListener('DOMContentLoaded', () => {
+        const continueBtn = document.getElementById('continue-btn');
+        const verificationSuccess = document.getElementById('verification-success');
+        const resetBtn = document.getElementById('reset-btn');
+        
+        // Initialize DefendAMinecraft reCAPTCHA
+        const widgetId = DefendAMinecraft.render('recaptcha-widget', {
+            sitekey: 'da_live_demo123456789abcdef',
+            theme: 'dark',
+            size: 'normal',
+            callback: function(token) {
+                console.log('Verification successful!', token);
+                if (continueBtn) continueBtn.disabled = false;
+                
+                // Show success message after a short delay
+                setTimeout(() => {
+                    if (verificationSuccess) {
+                        document.querySelector('.demo-card').style.display = 'none';
+                        verificationSuccess.classList.remove('hidden');
+                    }
+                }, 1000);
+            },
+            'error-callback': function(error) {
+                console.error('Verification failed:', error);
+                alert('Verification failed. Please try again.');
+            }
+        });
+        
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                DefendAMinecraft.reset(widgetId);
+                if (continueBtn) continueBtn.disabled = true;
+                document.querySelector('.demo-card').style.display = 'block';
+                if (verificationSuccess) verificationSuccess.classList.add('hidden');
+            });
+        }
+    });
+</script>
+
+<%- include('../partials/footer') %>

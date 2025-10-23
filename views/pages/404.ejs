@@ -1,0 +1,199 @@
+<%- include('../partials/header') %>
+    <div class="error-page">
+        <div class="container">
+            <div class="error-content">
+                <div class="error-illustration">
+                    <div class="error-404">404</div>
+                    <img src="/images/404-illustration.svg" alt="Page not found" class="error-image">
+                </div>
+                
+                <h1>Page Not Found</h1>
+                <p class="error-message">The page you're looking for doesn't exist or has been moved.</p>
+                
+                <div class="error-actions">
+                    <a href="/" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Back to Home
+                    </a>
+                    <a href="/contact" class="btn btn-outline">
+                        <i class="fas fa-envelope"></i> Contact Support
+                    </a>
+                </div>
+                
+                <div class="search-box">
+                    <p>Or search for what you need:</p>
+                    <div class="search-container">
+                        <input type="text" placeholder="Search our site...">
+                        <button type="button" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="useful-links">
+                    <h3>Popular Pages</h3>
+                    <div class="links-grid">
+                        <a href="/docs"><i class="fas fa-book"></i> Documentation</a>
+                        <a href="/pricing"><i class="fas fa-tag"></i> Pricing</a>
+                        <a href="/about"><i class="fas fa-info-circle"></i> About Us</a>
+                        <a href="/blog"><i class="fas fa-newspaper"></i> Blog</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        .error-page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .error-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .error-illustration {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .error-404 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10rem;
+            font-weight: 900;
+            color: rgba(26, 115, 232, 0.1);
+            z-index: 0;
+            line-height: 1;
+        }
+        
+        .error-image {
+            max-width: 300px;
+            height: auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .error-message {
+            font-size: 1.25rem;
+            color: #5f6368;
+            margin-bottom: 2rem;
+        }
+        
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            margin: 3rem 0;
+        }
+        
+        .search-container {
+            display: flex;
+            max-width: 500px;
+            margin: 1rem auto 0;
+        }
+        
+        .search-container input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #dadce0;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+        }
+        
+        .search-container button {
+            border-radius: 0 4px 4px 0;
+            padding: 0 1.5rem;
+        }
+        
+        .useful-links {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+        
+        .links-grid a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+            color: #202124;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .links-grid a:hover {
+            background: #e8f0fe;
+            color: #1a73e8;
+        }
+        
+        .links-grid i {
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .error-404 {
+                font-size: 8rem;
+            }
+            
+            .error-image {
+                max-width: 250px;
+            }
+            
+            .error-actions {
+                flex-direction: column;
+            }
+            
+            .error-actions .btn {
+                width: 100%;
+            }
+        }
+        
+        /* Dark mode */
+        @media (prefers-color-scheme: dark) {
+            .search-container input {
+                background: #3c4043;
+                border-color: #5f6368;
+                color: #e8eaed;
+            }
+            
+            .links-grid a {
+                background: #3c4043;
+                color: #e8eaed;
+            }
+            
+            .links-grid a:hover {
+                background: #5f6368;
+                color: #fff;
+            }
+            
+            .useful-links {
+                border-top-color: #5f6368;
+            }
+        }
+    </style>
+<%- include('../partials/footer') %>

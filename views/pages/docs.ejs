@@ -1,0 +1,252 @@
+<%- include('../partials/header') %>
+    <div class="page-header">
+        <div class="container">
+            <h1>API Documentation</h1>
+            <p>Everything you need to integrate DefendAMinecraft reCAPTCHA into your website</p>
+        </div>
+    </div>
+
+    <div class="docs-container">
+        <div class="container">
+            <div class="docs-layout">
+                <!-- Sidebar -->
+                <aside class="docs-sidebar">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search documentation...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    
+                    <div class="docs-nav">
+                        <div class="nav-section">
+                            <h3>Getting Started</h3>
+                            <ul>
+                                <li><a href="#introduction" class="active">Introduction</a></li>
+                                <li><a href="#quick-start">Quick Start</a></li>
+                                <li><a href="#installation">Installation</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="nav-section">
+                            <h3>Guides</h3>
+                            <ul>
+                                <li><a href="#configuration">Configuration</a></li>
+                                <li><a href="#customization">Customization</a></li>
+                                <li><a href="#troubleshooting">Troubleshooting</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="nav-section">
+                            <h3>API Reference</h3>
+                            <ul>
+                                <li><a href="#api-overview">Overview</a></li>
+                                <li><a href="#authentication">Authentication</a></li>
+                                <li><a href="#endpoints">Endpoints</a></li>
+                                <li><a href="#webhooks">Webhooks</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="nav-section">
+                            <h3>Resources</h3>
+                            <ul>
+                                <li><a href="#faq">FAQ</a></li>
+                                <li><a href="#changelog">Changelog</a></li>
+                                <li><a href="#support">Support</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="docs-content">
+                    <article id="introduction" class="doc-article active">
+                        <h2>Introduction</h2>
+                        <p>Welcome to the DefendaMinecraft documentation! This guide will help you integrate our security solution into your Minecraft server to protect it from bots, cheaters, and other malicious activities.</p>
+                        
+                        <h3>Features</h3>
+                        <ul>
+                            <li>Advanced bot detection and prevention</li>
+                            <li>DDoS protection</li>
+                            <li>Real-time monitoring and analytics</li>
+                            <li>Customizable security rules</li>
+                            <li>Easy integration with any Minecraft server</li>
+                        </ul>
+                    </article>
+
+                    <article id="quick-start" class="doc-article">
+                        <h2>Quick Start</h2>
+                        <p>Get up and running with DefendaMinecraft in just a few simple steps:</p>
+                        
+                        <div class="steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h3>Create an Account</h3>
+                                    <p>Sign up for a free account at <a href="/signup">DefendaMinecraft.com</a> and verify your email address.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h3>Add Your Server</h3>
+                                    <p>From your dashboard, click "Add Server" and follow the instructions to install our plugin.</p>
+                                    <pre><code class="language-bash">/plugins install defendaminecraft</code></pre>
+                                </div>
+                            </div>
+                            
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h3>Configure Your Settings</h3>
+                                    <p>Customize your security preferences in the dashboard or edit the config file:</p>
+                                    <pre><code class="language-yaml"># config.yml
+security:
+  anti-bot: true
+  anti-cheat: true
+  ddos-protection: true
+  log-level: info</code></pre>
+                                </div>
+                            </div>
+                            
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h3>Restart Your Server</h3>
+                                    <p>Restart your Minecraft server to apply the changes.</p>
+                                    <pre><code class="language-bash">/restart</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article id="configuration" class="doc-article">
+                        <h2>Configuration</h2>
+                        <p>DefendaMinecraft offers extensive configuration options to tailor the security to your needs.</p>
+                        
+                        <h3>Main Configuration</h3>
+                        <p>Edit the <code>config.yml</code> file in your server's plugins/DefendaMinecraft folder:</p>
+                        
+                        <pre><code class="language-yaml"># Main Configuration
+settings:
+  # Enable/disable the plugin
+  enabled: true
+  
+  # Logging level (debug, info, warn, error)
+  log-level: info
+  
+  # Update checking
+  check-updates: true
+
+# Security Settings
+security:
+  # Anti-bot protection
+  anti-bot:
+    enabled: true
+    max-connections: 5
+    connection-timeout: 5
+    
+  # Anti-cheat protection
+  anti-cheat:
+    enabled: true
+    check-interval: 5
+    
+  # DDoS Protection
+  ddos-protection:
+    enabled: true
+    threshold: 100
+    ban-time: 3600
+
+# Messages
+messages:
+  prefix: '&8[&cDefenda&8]&r'
+  no-permission: '&cYou do not have permission to use this command.'
+  reloaded: '&aConfiguration reloaded successfully!'</code></pre>
+
+                        <h3>Permissions</h3>
+                        <p>DefendaMinecraft comes with the following permission nodes:</p>
+                        
+                        <div class="permissions-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Permission</th>
+                                        <th>Description</th>
+                                        <th>Default</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>defendaminecraft.admin</code></td>
+                                        <td>Gives access to all admin commands</td>
+                                        <td>op</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>defendaminecraft.reload</code></td>
+                                        <td>Allows reloading the configuration</td>
+                                        <td>op</td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>defendaminecraft.bypass</code></td>
+                                        <td>Bypass all security checks</td>
+                                        <td>op</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
+
+                    <div class="docs-navigation">
+                        <a href="#" class="btn btn-outline">
+                            <i class="fas fa-arrow-left"></i> Previous
+                            <span>Getting Started</span>
+                        </a>
+                        <a href="#customization" class="btn btn-primary">
+                            Next <i class="fas fa-arrow-right"></i>
+                            <span>Customization</span>
+                        </a>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Update active state in sidebar
+                    document.querySelectorAll('.docs-nav a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Show the target article
+                    document.querySelectorAll('.doc-article').forEach(article => {
+                        article.classList.remove('active');
+                    });
+                    document.querySelector(`${targetId}.doc-article`).classList.add('active');
+                    
+                    // Scroll to the target
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Highlight.js for code syntax highlighting
+        document.addEventListener('DOMContentLoaded', () => {
+            // This would be replaced with actual highlight.js initialization
+            // if you include the library
+            // hljs.highlightAll();
+        });
+    </script>
+<%- include('../partials/footer') %>

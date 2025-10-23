@@ -1,0 +1,334 @@
+<%- include('../partials/header') %>
+
+<section class="settings-section">
+    <div class="container">
+        <div class="settings-header">
+            <h1>Settings</h1>
+            <p>Customize your DefendAMinecraft experience</p>
+        </div>
+        
+        <div class="settings-content">
+            <div class="settings-sidebar">
+                <div class="settings-nav">
+                    <button class="settings-nav-item active" data-section="interface">
+                        <i class="fas fa-desktop"></i>
+                        <span>Interface</span>
+                    </button>
+                    <button class="settings-nav-item" data-section="account">
+                        <i class="fas fa-user"></i>
+                        <span>Account</span>
+                    </button>
+                    <button class="settings-nav-item" data-section="api">
+                        <i class="fas fa-key"></i>
+                        <span>API Keys</span>
+                    </button>
+                    <button class="settings-nav-item" data-section="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
+                    </button>
+                    <button class="settings-nav-item" data-section="security">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Security</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="settings-main">
+                <!-- Interface Settings -->
+                <div class="settings-panel active" id="interface-panel">
+                    <h2>Interface Preferences</h2>
+                    <p>Customize how you navigate and interact with DefendAMinecraft</p>
+                    
+                    <div class="setting-group">
+                        <h3>Navigation Style</h3>
+                        <p class="setting-description">Choose how you want to navigate through the website</p>
+                        
+                        <div class="navbar-preview-grid">
+                            <div class="navbar-preview-option" data-style="top">
+                                <div class="preview-mockup">
+                                    <div class="mockup-header"></div>
+                                    <div class="mockup-content"></div>
+                                </div>
+                                <div class="preview-info">
+                                    <h4>Top Navigation</h4>
+                                    <p>Classic horizontal navigation bar at the top</p>
+                                    <button class="btn btn-outline select-navbar-btn" data-style="top">
+                                        <i class="fas fa-window-maximize"></i>
+                                        Select
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="navbar-preview-option" data-style="sidebar">
+                                <div class="preview-mockup">
+                                    <div class="mockup-sidebar"></div>
+                                    <div class="mockup-content"></div>
+                                </div>
+                                <div class="preview-info">
+                                    <h4>Sidebar Navigation</h4>
+                                    <p>Vertical sidebar for easy access to all pages</p>
+                                    <button class="btn btn-outline select-navbar-btn" data-style="sidebar">
+                                        <i class="fas fa-columns"></i>
+                                        Select
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="navbar-preview-option" data-style="bottom">
+                                <div class="preview-mockup">
+                                    <div class="mockup-content"></div>
+                                    <div class="mockup-bottom"></div>
+                                </div>
+                                <div class="preview-info">
+                                    <h4>Bottom Navigation</h4>
+                                    <p>Mobile-friendly bottom navigation bar</p>
+                                    <button class="btn btn-outline select-navbar-btn" data-style="bottom">
+                                        <i class="fas fa-window-minimize"></i>
+                                        Select
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="current-selection">
+                            <div class="selection-indicator">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Currently using: <strong id="current-navbar-style">Top Navigation</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <h3>Theme Preferences</h3>
+                        <div class="theme-options">
+                            <label class="theme-option">
+                                <input type="radio" name="theme" value="dark" checked>
+                                <div class="theme-preview dark">
+                                    <div class="theme-header"></div>
+                                    <div class="theme-content"></div>
+                                </div>
+                                <span>Dark Theme</span>
+                            </label>
+                            <label class="theme-option">
+                                <input type="radio" name="theme" value="light">
+                                <div class="theme-preview light">
+                                    <div class="theme-header"></div>
+                                    <div class="theme-content"></div>
+                                </div>
+                                <span>Light Theme</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Account Settings -->
+                <div class="settings-panel" id="account-panel">
+                    <h2>Account Settings</h2>
+                    <p>Manage your account information and preferences</p>
+                    
+                    <div class="setting-group">
+                        <h3>Profile Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input type="text" value="John" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" value="Doe" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" value="john@example.com" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Company</label>
+                                <input type="text" value="Example Corp" class="form-input">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+                
+                <!-- API Keys Settings -->
+                <div class="settings-panel" id="api-panel">
+                    <h2>API Keys</h2>
+                    <p>Manage your API keys for DefendAMinecraft integration</p>
+                    
+                    <div class="setting-group">
+                        <h3>Your API Keys</h3>
+                        <div class="api-key-list">
+                            <div class="api-key-item">
+                                <div class="api-key-info">
+                                    <h4>Production Key</h4>
+                                    <code>da_live_xxxxxxxxxxxxxxxxxxxxxxxx</code>
+                                    <span class="api-key-status active">Active</span>
+                                </div>
+                                <div class="api-key-actions">
+                                    <button class="btn btn-outline btn-sm">Copy</button>
+                                    <button class="btn btn-outline btn-sm">Regenerate</button>
+                                </div>
+                            </div>
+                            <div class="api-key-item">
+                                <div class="api-key-info">
+                                    <h4>Test Key</h4>
+                                    <code>da_test_xxxxxxxxxxxxxxxxxxxxxxxx</code>
+                                    <span class="api-key-status active">Active</span>
+                                </div>
+                                <div class="api-key-actions">
+                                    <button class="btn btn-outline btn-sm">Copy</button>
+                                    <button class="btn btn-outline btn-sm">Regenerate</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Generate New Key</button>
+                    </div>
+                </div>
+                
+                <!-- Notifications Settings -->
+                <div class="settings-panel" id="notifications-panel">
+                    <h2>Notifications</h2>
+                    <p>Control what notifications you receive</p>
+                    
+                    <div class="setting-group">
+                        <h3>Email Notifications</h3>
+                        <div class="notification-options">
+                            <label class="notification-option">
+                                <input type="checkbox" checked>
+                                <div class="option-info">
+                                    <h4>Security Alerts</h4>
+                                    <p>Get notified about suspicious activity</p>
+                                </div>
+                            </label>
+                            <label class="notification-option">
+                                <input type="checkbox" checked>
+                                <div class="option-info">
+                                    <h4>Service Updates</h4>
+                                    <p>Important updates about our service</p>
+                                </div>
+                            </label>
+                            <label class="notification-option">
+                                <input type="checkbox">
+                                <div class="option-info">
+                                    <h4>Marketing</h4>
+                                    <p>Product news and feature announcements</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Security Settings -->
+                <div class="settings-panel" id="security-panel">
+                    <h2>Security</h2>
+                    <p>Keep your account secure</p>
+                    
+                    <div class="setting-group">
+                        <h3>Password</h3>
+                        <button class="btn btn-outline">Change Password</button>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <h3>Two-Factor Authentication</h3>
+                        <div class="security-option">
+                            <div class="security-info">
+                                <h4>Enable 2FA</h4>
+                                <p>Add an extra layer of security to your account</p>
+                            </div>
+                            <button class="btn btn-primary">Enable</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Settings navigation
+    document.querySelectorAll('.settings-nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const section = item.dataset.section;
+            
+            // Update active nav item
+            document.querySelectorAll('.settings-nav-item').forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+            
+            // Update active panel
+            document.querySelectorAll('.settings-panel').forEach(panel => panel.classList.remove('active'));
+            document.getElementById(`${section}-panel`).classList.add('active');
+        });
+    });
+    
+    // Navbar style selection
+    document.querySelectorAll('.select-navbar-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const style = btn.dataset.style;
+            
+            // Update navbar style
+            if (window.setNavbarStyle) {
+                window.setNavbarStyle(style);
+                localStorage.setItem('navbar-style', style);
+            }
+            
+            // Update UI
+            updateNavbarSelection(style);
+            
+            // Show success message
+            showNotification('Navigation style updated successfully!', 'success');
+        });
+    });
+    
+    function updateNavbarSelection(style) {
+        // Update preview selections
+        document.querySelectorAll('.navbar-preview-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+        document.querySelector(`[data-style="${style}"]`).classList.add('selected');
+        
+        // Update current selection text
+        const styleNames = {
+            'top': 'Top Navigation',
+            'sidebar': 'Sidebar Navigation', 
+            'bottom': 'Bottom Navigation'
+        };
+        document.getElementById('current-navbar-style').textContent = styleNames[style];
+    }
+    
+    // Initialize current selection
+    document.addEventListener('DOMContentLoaded', () => {
+        const currentStyle = localStorage.getItem('navbar-style') || 'top';
+        updateNavbarSelection(currentStyle);
+    });
+    
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <span>${message}</span>
+        `;
+        
+        Object.assign(notification.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            background: type === 'success' ? '#22c55e' : '#00d4ff',
+            color: 'white',
+            padding: 'var(--space-3) var(--space-4)',
+            borderRadius: 'var(--border-radius)',
+            boxShadow: 'var(--shadow-lg)',
+            zIndex: '1001',
+            animation: 'slideIn 0.3s ease-out'
+        });
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease-in';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+</script>
+
+<%- include('../partials/footer') %>

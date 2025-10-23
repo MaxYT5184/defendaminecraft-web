@@ -1,0 +1,245 @@
+        </main>
+        
+        <!-- Sidebar Navigation (hidden by default) -->
+        <nav class="sidebar-nav" id="sidebar-nav">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>DefendAMinecraft</span>
+                </div>
+                <button class="sidebar-close" id="sidebar-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="sidebar-menu">
+                <a href="/" class="sidebar-item <%= currentPage === 'home' ? 'active' : '' %>">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="/features" class="sidebar-item <%= currentPage === 'features' ? 'active' : '' %>">
+                    <i class="fas fa-star"></i>
+                    <span>Features</span>
+                </a>
+                <a href="/docs" class="sidebar-item <%= currentPage === 'docs' ? 'active' : '' %>">
+                    <i class="fas fa-book"></i>
+                    <span>API Docs</span>
+                </a>
+                <a href="/demo" class="sidebar-item <%= currentPage === 'demo' ? 'active' : '' %>">
+                    <i class="fas fa-play"></i>
+                    <span>Live Demo</span>
+                </a>
+                <a href="/settings" class="sidebar-item <%= currentPage === 'settings' ? 'active' : '' %>">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+            <div class="sidebar-auth">
+                <a href="/login" class="sidebar-auth-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Log in</span>
+                </a>
+                <a href="/signup" class="sidebar-auth-btn primary">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Sign up</span>
+                </a>
+            </div>
+        </nav>
+        
+        <!-- Bottom Navigation (hidden by default) -->
+        <nav class="bottom-nav" id="bottom-nav">
+            <a href="/" class="bottom-nav-item <%= currentPage === 'home' ? 'active' : '' %>">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="/features" class="bottom-nav-item <%= currentPage === 'features' ? 'active' : '' %>">
+                <i class="fas fa-star"></i>
+                <span>Features</span>
+            </a>
+            <a href="/docs" class="bottom-nav-item <%= currentPage === 'docs' ? 'active' : '' %>">
+                <i class="fas fa-book"></i>
+                <span>Docs</span>
+            </a>
+            <a href="/demo" class="bottom-nav-item <%= currentPage === 'demo' ? 'active' : '' %>">
+                <i class="fas fa-play"></i>
+                <span>Demo</span>
+            </a>
+            <a href="/settings" class="bottom-nav-item <%= currentPage === 'settings' ? 'active' : '' %>">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+        
+        <footer class="site-footer">
+            <div class="footer-container">
+                <div class="footer-grid">
+                    <div class="footer-section">
+                        <h3>DefendAMinecraft</h3>
+                        <p>The world's most advanced reCAPTCHA service. Faster, smarter, and more secure than any other bot protection solution.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="/features">Features</a></li>
+                            <li><a href="/demo">Live Demo</a></li>
+                            <li><a href="/status">Service Status</a></li>
+                            <li><a href="/settings">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Developers</h4>
+                        <ul>
+                            <li><a href="/docs">API Documentation</a></li>
+                            <li><a href="/integration">Integration Guide</a></li>
+                            <li><a href="/sdk">SDKs & Libraries</a></li>
+                            <li><a href="/support">Developer Support</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="/about">About</a></li>
+                            <li><a href="/blog">Blog</a></li>
+                            <li><a href="/partners">Partners</a></li>
+                            <li><a href="/contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="/privacy">Privacy Policy</a></li>
+                            <li><a href="/terms">Terms of Service</a></li>
+                            <li><a href="/security">Security</a></li>
+                            <li><a href="/gdpr">GDPR</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="copyright">
+                        &copy; 2025 DefendaMinecraft. All rights reserved.
+                    </div>
+                    <div class="footer-legal">
+                        <a href="/privacy">Privacy</a>
+                        <span class="divider">•</span>
+                        <a href="/terms">Terms</a>
+                        <span class="divider">•</span>
+                        <a href="/cookies">Cookies</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/main.js" type="module"></script>
+    <script src="/js/recaptcha.js" type="module"></script>
+    
+    <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mainNav = document.querySelector('.main-nav');
+        
+        if (mobileMenuToggle && mainNav) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                mobileMenuToggle.classList.toggle('active');
+            });
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.header-container') && mainNav) {
+                mainNav.classList.remove('active');
+                if (mobileMenuToggle) mobileMenuToggle.classList.remove('active');
+            }
+        });
+        
+        // Navbar Style Switching
+        const navbarStyleBtn = document.getElementById('navbar-style-btn');
+        const navbarOptions = document.getElementById('navbar-options');
+        const body = document.getElementById('main-body');
+        const sidebarNav = document.getElementById('sidebar-nav');
+        const bottomNav = document.getElementById('bottom-nav');
+        const siteHeader = document.querySelector('.site-header');
+        const siteFooter = document.querySelector('.site-footer');
+        
+        // Load saved navbar style
+        const savedStyle = localStorage.getItem('navbar-style') || 'top';
+        setNavbarStyle(savedStyle);
+        
+        // Toggle navbar options
+        if (navbarStyleBtn) {
+            navbarStyleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navbarOptions.classList.toggle('show');
+            });
+        }
+        
+        // Handle navbar style selection
+        document.querySelectorAll('.navbar-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const style = option.dataset.style;
+                setNavbarStyle(style);
+                localStorage.setItem('navbar-style', style);
+                navbarOptions.classList.remove('show');
+                
+                // Update active option
+                document.querySelectorAll('.navbar-option').forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+        
+        // Close options when clicking outside
+        document.addEventListener('click', () => {
+            if (navbarOptions) navbarOptions.classList.remove('show');
+        });
+        
+        function setNavbarStyle(style) {
+            // Remove all navbar style classes
+            body.classList.remove('navbar-style-top', 'navbar-style-sidebar', 'navbar-style-bottom');
+            
+            // Add the selected style class
+            body.classList.add(`navbar-style-${style}`);
+            
+            // Show/hide appropriate navigation elements
+            switch(style) {
+                case 'top':
+                    if (siteHeader) siteHeader.style.display = 'block';
+                    if (sidebarNav) sidebarNav.classList.remove('active');
+                    if (bottomNav) bottomNav.classList.remove('active');
+                    if (siteFooter) siteFooter.style.display = 'block';
+                    break;
+                case 'sidebar':
+                    if (siteHeader) siteHeader.style.display = 'none';
+                    if (sidebarNav) sidebarNav.classList.add('active');
+                    if (bottomNav) bottomNav.classList.remove('active');
+                    if (siteFooter) siteFooter.style.display = 'block';
+                    break;
+                case 'bottom':
+                    if (siteHeader) siteHeader.style.display = 'none';
+                    if (sidebarNav) sidebarNav.classList.remove('active');
+                    if (bottomNav) bottomNav.classList.add('active');
+                    if (siteFooter) siteFooter.style.display = 'none';
+                    break;
+            }
+        }
+        
+        // Sidebar close functionality
+        const sidebarClose = document.getElementById('sidebar-close');
+        if (sidebarClose) {
+            sidebarClose.addEventListener('click', () => {
+                setNavbarStyle('top');
+                localStorage.setItem('navbar-style', 'top');
+                document.querySelectorAll('.navbar-option').forEach(opt => opt.classList.remove('active'));
+                document.querySelector('.navbar-option[data-style="top"]').classList.add('active');
+            });
+        }
+    </script>
+</body>
+</html>

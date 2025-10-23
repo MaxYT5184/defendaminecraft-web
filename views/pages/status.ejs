@@ -1,0 +1,219 @@
+<%- include('../partials/header') %>
+
+<section class="status-section">
+    <div class="container">
+        <div class="status-header">
+            <h1>Service Status</h1>
+            <p>Real-time status of DefendAMinecraft services and infrastructure</p>
+            <div class="overall-status">
+                <div class="status-indicator operational">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="status-info">
+                    <h2>All Systems Operational</h2>
+                    <p>Last updated: <span id="last-updated">Just now</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="services-status">
+            <h3>Services</h3>
+            <div class="service-list">
+                <div class="service-item">
+                    <div class="service-info">
+                        <h4>reCAPTCHA API</h4>
+                        <p>Core verification service</p>
+                    </div>
+                    <div class="service-status operational">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Operational</span>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">
+                        <h4>Analytics Dashboard</h4>
+                        <p>Real-time analytics and reporting</p>
+                    </div>
+                    <div class="service-status operational">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Operational</span>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">
+                        <h4>CDN Network</h4>
+                        <p>Global content delivery network</p>
+                    </div>
+                    <div class="service-status operational">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Operational</span>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">
+                        <h4>Database</h4>
+                        <p>Data storage and retrieval</p>
+                    </div>
+                    <div class="service-status operational">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Operational</span>
+                    </div>
+                </div>
+                
+                <div class="service-item">
+                    <div class="service-info">
+                        <h4>Authentication</h4>
+                        <p>User login and account management</p>
+                    </div>
+                    <div class="service-status operational">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Operational</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="performance-metrics">
+            <h3>Performance Metrics</h3>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h4>Response Time</h4>
+                        <span class="metric-value">287ms</span>
+                    </div>
+                    <div class="metric-chart">
+                        <canvas id="response-time-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h4>Success Rate</h4>
+                        <span class="metric-value">99.97%</span>
+                    </div>
+                    <div class="metric-chart">
+                        <canvas id="success-rate-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <h4>Uptime</h4>
+                        <span class="metric-value">99.99%</span>
+                    </div>
+                    <div class="uptime-bars">
+                        <div class="uptime-day operational" title="100% - Today"></div>
+                        <div class="uptime-day operational" title="100% - Yesterday"></div>
+                        <div class="uptime-day operational" title="100% - 2 days ago"></div>
+                        <div class="uptime-day operational" title="100% - 3 days ago"></div>
+                        <div class="uptime-day operational" title="100% - 4 days ago"></div>
+                        <div class="uptime-day operational" title="100% - 5 days ago"></div>
+                        <div class="uptime-day operational" title="100% - 6 days ago"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="incident-history">
+            <h3>Recent Incidents</h3>
+            <div class="incident-list">
+                <div class="incident-item resolved">
+                    <div class="incident-status">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="incident-info">
+                        <h4>Resolved - Brief API Latency Increase</h4>
+                        <p>We experienced a brief increase in API response times due to high traffic. The issue has been resolved and performance is back to normal.</p>
+                        <div class="incident-meta">
+                            <span class="incident-date">Oct 20, 2025 - 14:32 UTC</span>
+                            <span class="incident-duration">Duration: 12 minutes</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="incident-item resolved">
+                    <div class="incident-status">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="incident-info">
+                        <h4>Resolved - Scheduled Maintenance</h4>
+                        <p>Scheduled maintenance to upgrade our infrastructure. All services remained operational during the maintenance window.</p>
+                        <div class="incident-meta">
+                            <span class="incident-date">Oct 18, 2025 - 02:00 UTC</span>
+                            <span class="incident-duration">Duration: 30 minutes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-subscribe">
+            <div class="subscribe-card">
+                <h3>Stay Updated</h3>
+                <p>Get notified about service updates and incidents</p>
+                <div class="subscribe-options">
+                    <a href="#" class="btn btn-outline">
+                        <i class="fas fa-rss"></i>
+                        RSS Feed
+                    </a>
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-bell"></i>
+                        Email Notifications
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Update last updated time
+    function updateLastUpdated() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString();
+        document.getElementById('last-updated').textContent = timeString;
+    }
+    
+    // Update every 30 seconds
+    setInterval(updateLastUpdated, 30000);
+    
+    // Simple chart simulation (in a real app, you'd use a charting library)
+    function drawSimpleChart(canvasId, color) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        const width = canvas.width = canvas.offsetWidth;
+        const height = canvas.height = canvas.offsetHeight;
+        
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        
+        // Generate some sample data points
+        const points = 20;
+        for (let i = 0; i < points; i++) {
+            const x = (i / (points - 1)) * width;
+            const y = height - (Math.random() * 0.3 + 0.7) * height;
+            
+            if (i === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+        }
+        
+        ctx.stroke();
+    }
+    
+    // Draw charts when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        drawSimpleChart('response-time-chart', '#00d4ff');
+        drawSimpleChart('success-rate-chart', '#22c55e');
+    });
+</script>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/css/recaptcha.css">
+</head>
+<body class="navbar-style-top" id="main-body">
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="/">
+                    <i class="fas fa-shield-alt"></i>
+                    DefendAMinecraft
+                </a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="/" class="<%= currentPage === 'home' ? 'active' : '' %>">Home</a></li>
+                    <li><a href="/features" class="<%= currentPage === 'features' ? 'active' : '' %>">Features</a></li>
+                    <li><a href="/docs" class="<%= currentPage === 'docs' ? 'active' : '' %>">API Docs</a></li>
+                    <li><a href="/demo" class="<%= currentPage === 'demo' ? 'active' : '' %>">Live Demo</a></li>
+                    <li><a href="/settings" class="<%= currentPage === 'settings' ? 'active' : '' %>">Settings</a></li>
+                </ul>
+            </nav>
+            <div class="navbar-controls">
+                <div class="navbar-style-selector">
+                    <button class="navbar-toggle-btn" id="navbar-style-btn" title="Change Navigation Style">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="navbar-options" id="navbar-options">
+                        <button class="navbar-option active" data-style="top">
+                            <i class="fas fa-window-maximize"></i>
+                            <span>Top Bar</span>
+                        </button>
+                        <button class="navbar-option" data-style="sidebar">
+                            <i class="fas fa-columns"></i>
+                            <span>Sidebar</span>
+                        </button>
+                        <button class="navbar-option" data-style="bottom">
+                            <i class="fas fa-window-minimize"></i>
+                            <span>Bottom Bar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="auth-buttons">
+                <a href="/login" class="btn btn-outline">Log in</a>
+                <a href="/signup" class="btn btn-primary">Sign up</a>
+            </div>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+    <main class="main-content">

@@ -1,0 +1,187 @@
+/* DefendaCaptcha Widget Styles */
+.defenda-captcha {
+    display: inline-flex;
+    align-items: center;
+    background: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-family: Roboto, Arial, sans-serif;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.defenda-captcha:hover {
+    border-color: #c9c9c9;
+    background: #f0f0f0;
+}
+
+.defenda-captcha.active {
+    background: #f0f7ff;
+    border-color: #1a73e8;
+}
+
+.defenda-captcha.verified {
+    background: #e6f4ea;
+    border-color: #34a853;
+}
+
+.defenda-captcha-checkbox {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #757575;
+    border-radius: 4px;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background: white;
+}
+
+.defenda-captcha-checkbox-checkmark {
+    display: none;
+    width: 20px;
+    height: 20px;
+    background: #34a853;
+    border-radius: 2px;
+    align-items: center;
+    justify-content: center;
+}
+
+.defenda-captcha.verified .defenda-captcha-checkbox {
+    border-color: #34a853;
+    background: #34a853;
+}
+
+.defenda-captcha.verified .defenda-captcha-checkbox-checkmark {
+    display: flex;
+}
+
+.defenda-captcha-text {
+    font-size: 14px;
+    color: #5f6368;
+    margin-right: 12px;
+}
+
+.defenda-captcha-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 8px;
+    color: #5f6368;
+    line-height: 1.1;
+}
+
+/* Challenge styles */
+.defenda-captcha-challenge {
+    margin-top: 10px;
+    padding: 15px;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #dadce0;
+    max-width: 300px;
+    box-sizing: border-box;
+}
+
+.defenda-captcha-challenge-question {
+    font-size: 14px;
+    margin-bottom: 12px;
+    color: #202124;
+}
+
+.defenda-captcha-challenge-input {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.defenda-captcha-challenge-input:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+.defenda-captcha-challenge-verify {
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.defenda-captcha-challenge-verify:hover {
+    background: #1557b0;
+}
+
+.defenda-captcha-error {
+    color: #d93025;
+    font-size: 12px;
+    margin-top: 8px;
+    display: none;
+}
+
+/* Dark theme */
+.defenda-captcha.dark {
+    background: #202124;
+    border-color: #5f6368;
+}
+
+.defenda-captcha.dark .defenda-captcha-text,
+.defenda-captcha.dark .defenda-captcha-logo {
+    color: #e8eaed;
+}
+
+.defenda-captcha.dark .defenda-captcha-checkbox {
+    background: #3c4043;
+    border-color: #5f6368;
+}
+
+.defenda-captcha.dark.verified {
+    background: #1e3a2a;
+    border-color: #34a853;
+}
+
+.defenda-captcha-challenge.dark {
+    background: #202124;
+    border-color: #5f6368;
+}
+
+.defenda-captcha-challenge.dark .defenda-captcha-challenge-question {
+    color: #e8eaed;
+}
+
+.defenda-captcha-challenge.dark .defenda-captcha-challenge-input {
+    background: #3c4043;
+    border-color: #5f6368;
+    color: #e8eaed;
+}
+
+/* Animations */
+@keyframes defenda-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .defenda-captcha {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .defenda-captcha-challenge {
+        max-width: 100%;
+    }
+}

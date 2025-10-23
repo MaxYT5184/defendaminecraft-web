@@ -1,0 +1,451 @@
+<%- include('../partials/header') %>
+
+<section class="dashboard-section">
+    <div class="container">
+        <div class="dashboard-header">
+            <div class="user-welcome">
+                <div class="user-avatar">
+                    <img src="https://github.com/octocat.png" alt="User Avatar" id="user-avatar">
+                </div>
+                <div class="user-info">
+                    <h1>Welcome back, <span id="user-name">Developer</span>!</h1>
+                    <p>Manage your reCAPTCHA integrations and monitor your website security</p>
+                </div>
+            </div>
+            <div class="dashboard-actions">
+                <button class="btn btn-primary" id="create-api-key-btn">
+                    <i class="fas fa-plus"></i>
+                    Create New API Key
+                </button>
+            </div>
+        </div>
+        
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-shield-check"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Verifications Today</h3>
+                    <div class="stat-number">12,847</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +23% from yesterday
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Bots Blocked</h3>
+                    <div class="stat-number">1,247</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +12% from yesterday
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>Active Websites</h3>
+                    <div class="stat-number">3</div>
+                    <div class="stat-change neutral">
+                        <i class="fas fa-minus"></i>
+                        No change
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <div class="stat-content">
+                    <h3>API Keys</h3>
+                    <div class="stat-number" id="api-keys-count">2</div>
+                    <div class="stat-change neutral">
+                        <i class="fas fa-minus"></i>
+                        Active keys
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-content">
+            <div class="dashboard-main">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2>Your API Keys</h2>
+                        <p>Manage your API keys for different websites and environments</p>
+                    </div>
+                    
+                    <div class="api-keys-list" id="api-keys-list">
+                        <!-- API keys will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2>Recent Activity</h2>
+                        <p>Latest verification attempts and security events</p>
+                    </div>
+                    
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Verification Successful</h4>
+                                <p>example.com - 2 minutes ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon blocked">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Bot Blocked</h4>
+                                <p>mysite.com - 5 minutes ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Verification Successful</h4>
+                                <p>testsite.org - 8 minutes ago</p>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h4>Suspicious Activity</h4>
+                                <p>example.com - 12 minutes ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-sidebar">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Quick Actions</h3>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <a href="/docs" class="quick-action">
+                            <i class="fas fa-book"></i>
+                            <span>View Documentation</span>
+                        </a>
+                        <a href="/integration" class="quick-action">
+                            <i class="fas fa-code"></i>
+                            <span>Integration Guide</span>
+                        </a>
+                        <a href="/demo" class="quick-action">
+                            <i class="fas fa-play"></i>
+                            <span>Test Demo</span>
+                        </a>
+                        <a href="/settings" class="quick-action">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h3>Account Usage</h3>
+                    </div>
+                    
+                    <div class="usage-info">
+                        <div class="usage-item">
+                            <div class="usage-label">Monthly Verifications</div>
+                            <div class="usage-bar">
+                                <div class="usage-fill" style="width: 45%"></div>
+                            </div>
+                            <div class="usage-text">45,000 / 100,000</div>
+                        </div>
+                        
+                        <div class="usage-item">
+                            <div class="usage-label">API Requests</div>
+                            <div class="usage-bar">
+                                <div class="usage-fill" style="width: 32%"></div>
+                            </div>
+                            <div class="usage-text">32,000 / 100,000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Create API Key Modal -->
+<div class="modal" id="create-api-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Create New API Key</h2>
+            <button class="modal-close" id="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form class="modal-form" id="create-api-form">
+            <div class="form-group">
+                <label for="api-name">API Key Name</label>
+                <input type="text" id="api-name" name="name" placeholder="e.g., My Website Production" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="api-domain">Domain (Optional)</label>
+                <input type="text" id="api-domain" name="domain" placeholder="e.g., example.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="api-environment">Environment</label>
+                <select id="api-environment" name="environment" required>
+                    <option value="production">Production</option>
+                    <option value="development">Development</option>
+                    <option value="testing">Testing</option>
+                </select>
+            </div>
+            
+            <div class="modal-actions">
+                <button type="button" class="btn btn-outline" id="cancel-btn">Cancel</button>
+                <button type="submit" class="btn btn-primary">Create API Key</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Dashboard functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        loadApiKeys();
+        initializeModals();
+        loadUserData();
+    });
+    
+    function loadUserData() {
+        // Load user data from localStorage or API
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        if (userData.name) {
+            document.getElementById('user-name').textContent = userData.name;
+        }
+        if (userData.avatar) {
+            document.getElementById('user-avatar').src = userData.avatar;
+        }
+    }
+    
+    function loadApiKeys() {
+        const apiKeys = JSON.parse(localStorage.getItem('apiKeys') || '[]');
+        const container = document.getElementById('api-keys-list');
+        
+        if (apiKeys.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-key"></i>
+                    <h3>No API Keys Yet</h3>
+                    <p>Create your first API key to start protecting your websites</p>
+                    <button class="btn btn-primary" onclick="openCreateModal()">
+                        <i class="fas fa-plus"></i>
+                        Create API Key
+                    </button>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = apiKeys.map(key => `
+            <div class="api-key-card" data-id="${key.id}">
+                <div class="api-key-header">
+                    <div class="api-key-info">
+                        <h4>${key.name}</h4>
+                        <span class="api-key-env ${key.environment}">${key.environment}</span>
+                    </div>
+                    <div class="api-key-actions">
+                        <button class="btn btn-outline btn-sm" onclick="copyApiKey('${key.key}')">
+                            <i class="fas fa-copy"></i>
+                            Copy
+                        </button>
+                        <button class="btn btn-outline btn-sm" onclick="regenerateApiKey('${key.id}')">
+                            <i class="fas fa-refresh"></i>
+                            Regenerate
+                        </button>
+                        <button class="btn btn-outline btn-sm danger" onclick="deleteApiKey('${key.id}')">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="api-key-details">
+                    <div class="api-key-field">
+                        <label>API Key:</label>
+                        <code>${key.key}</code>
+                    </div>
+                    ${key.domain ? `
+                        <div class="api-key-field">
+                            <label>Domain:</label>
+                            <span>${key.domain}</span>
+                        </div>
+                    ` : ''}
+                    <div class="api-key-field">
+                        <label>Created:</label>
+                        <span>${new Date(key.created).toLocaleDateString()}</span>
+                    </div>
+                    <div class="api-key-field">
+                        <label>Last Used:</label>
+                        <span>${key.lastUsed ? new Date(key.lastUsed).toLocaleDateString() : 'Never'}</span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        
+        // Update count
+        document.getElementById('api-keys-count').textContent = apiKeys.length;
+    }
+    
+    function initializeModals() {
+        const modal = document.getElementById('create-api-modal');
+        const createBtn = document.getElementById('create-api-key-btn');
+        const closeBtn = document.getElementById('modal-close');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const form = document.getElementById('create-api-form');
+        
+        createBtn?.addEventListener('click', openCreateModal);
+        closeBtn?.addEventListener('click', closeCreateModal);
+        cancelBtn?.addEventListener('click', closeCreateModal);
+        
+        modal?.addEventListener('click', (e) => {
+            if (e.target === modal) closeCreateModal();
+        });
+        
+        form?.addEventListener('submit', handleCreateApiKey);
+    }
+    
+    function openCreateModal() {
+        document.getElementById('create-api-modal').classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeCreateModal() {
+        document.getElementById('create-api-modal').classList.remove('show');
+        document.body.style.overflow = 'auto';
+        document.getElementById('create-api-form').reset();
+    }
+    
+    function handleCreateApiKey(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const apiKey = {
+            id: Date.now().toString(),
+            name: formData.get('name'),
+            domain: formData.get('domain'),
+            environment: formData.get('environment'),
+            key: generateApiKey(),
+            created: new Date().toISOString(),
+            lastUsed: null
+        };
+        
+        const apiKeys = JSON.parse(localStorage.getItem('apiKeys') || '[]');
+        apiKeys.push(apiKey);
+        localStorage.setItem('apiKeys', JSON.stringify(apiKeys));
+        
+        loadApiKeys();
+        closeCreateModal();
+        showNotification('API Key created successfully!', 'success');
+    }
+    
+    function generateApiKey() {
+        const prefix = 'da_live_';
+        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let result = prefix;
+        for (let i = 0; i < 32; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    }
+    
+    function copyApiKey(key) {
+        navigator.clipboard.writeText(key).then(() => {
+            showNotification('API Key copied to clipboard!', 'success');
+        });
+    }
+    
+    function regenerateApiKey(id) {
+        if (!confirm('Are you sure you want to regenerate this API key? The old key will stop working immediately.')) {
+            return;
+        }
+        
+        const apiKeys = JSON.parse(localStorage.getItem('apiKeys') || '[]');
+        const keyIndex = apiKeys.findIndex(k => k.id === id);
+        
+        if (keyIndex !== -1) {
+            apiKeys[keyIndex].key = generateApiKey();
+            localStorage.setItem('apiKeys', JSON.stringify(apiKeys));
+            loadApiKeys();
+            showNotification('API Key regenerated successfully!', 'success');
+        }
+    }
+    
+    function deleteApiKey(id) {
+        if (!confirm('Are you sure you want to delete this API key? This action cannot be undone.')) {
+            return;
+        }
+        
+        const apiKeys = JSON.parse(localStorage.getItem('apiKeys') || '[]');
+        const filteredKeys = apiKeys.filter(k => k.id !== id);
+        localStorage.setItem('apiKeys', JSON.stringify(filteredKeys));
+        
+        loadApiKeys();
+        showNotification('API Key deleted successfully!', 'success');
+    }
+    
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+            <span>${message}</span>
+        `;
+        
+        Object.assign(notification.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            background: type === 'success' ? '#22c55e' : '#ef4444',
+            color: 'white',
+            padding: 'var(--space-3) var(--space-4)',
+            borderRadius: 'var(--border-radius)',
+            boxShadow: 'var(--shadow-lg)',
+            zIndex: '1001',
+            animation: 'slideIn 0.3s ease-out'
+        });
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease-in';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+</script>
+
+<%- include('../partials/footer') %>
