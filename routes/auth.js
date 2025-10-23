@@ -9,15 +9,17 @@ const userAnalytics = new Map();
 
 // Database functions
 async function saveUserToDatabase(user) {
+    const userId = String(user.id);
+    
     // Store user data
-    userDatabase.set(user.id, {
+    userDatabase.set(userId, {
         ...user,
         updated_at: new Date().toISOString()
     });
     
     // Initialize user analytics if not exists
-    if (!userAnalytics.has(user.id)) {
-        userAnalytics.set(user.id, {
+    if (!userAnalytics.has(userId)) {
+        userAnalytics.set(userId, {
             totalVerifications: Math.floor(Math.random() * 1000) + 100,
             successfulVerifications: Math.floor(Math.random() * 800) + 80,
             blockedAttempts: Math.floor(Math.random() * 50) + 10,
@@ -29,9 +31,9 @@ async function saveUserToDatabase(user) {
     }
     
     // Create default API key if user doesn't have one
-    if (!userApiKeys.has(user.id)) {
+    if (!userApiKeys.has(userId)) {
         const apiKey = generateApiKey();
-        userApiKeys.set(user.id, [{
+        userApiKeys.set(userId, [{
             id: crypto.randomUUID(),
             name: 'Default API Key',
             key_value: apiKey,
@@ -65,11 +67,11 @@ function generateMonthlyStats() {
 }
 
 async function getUserData(userId) {
-    return userDatabase.get(parseInt(userId));
+    return userDatabase.get(String(userId));
 }
 
 async function getUserAnalytics(userId) {
-    return userAnalytics.get(parseInt(userId)) || {
+    return userAnalytics.get(String(userId)) || {
         totalVerifications: 0,
         successfulVerifications: 0,
         blockedAttempts: 0,
@@ -81,7 +83,7 @@ async function getUserAnalytics(userId) {
 }
 
 async function getUserApiKeys(userId) {
-    return userApiKeys.get(parseInt(userId)) || [];
+    return userApiKeys.get(String(userId)) || [];
 }
 
 // GitHub OAuth configuration
@@ -278,14 +280,28 @@ router.get('/user', (req, res) => {
 
 // Get user dashboard data
 router.get('/dashboard-data', async (req, res) => {
+    console.log('Dashboard data request:', {
+        isAuthenticated: req.session?.isAuthenticated,
+        hasUser: !!req.session?.user,
+        userId: req.session?.user?.id
+    });
+
     if (!req.session.isAuthenticated) {
         return res.status(401).json({ error: 'Not authenticated' });
     }
 
     try {
-        const userId = req.session.user.id;
+        const userId = String(req.session.user.id);
+        console.log('Loading data for user:', userId);
+        
         const analytics = await getUserAnalytics(userId);
         const apiKeys = await getUserApiKeys(userId);
+        
+        console.log('Data loaded:', {
+            analyticsExists: !!analytics,
+            apiKeysCount: apiKeys?.length || 0,
+            analytics: analytics
+        });
         
         res.json({
             success: true,
@@ -318,7 +334,7 @@ router.post('/api-keys', async (req, res) => {
     }
 
     try {
-        const userId = req.session.user.id;
+        const userId = String(req.session.user.id);
         const { name, environment, domain } = req.body;
         
         const newApiKey = {
@@ -353,7 +369,7 @@ router.delete('/api-keys/:keyId', async (req, res) => {
     }
 
     try {
-        const userId = req.session.user.id;
+        const userId = String(req.session.user.id);
         const keyId = req.params.keyId;
         
         const userKeys = userApiKeys.get(userId) || [];
